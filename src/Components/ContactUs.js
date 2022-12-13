@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ContactUs() {
   const [name, setName] = useState("");
@@ -6,9 +6,23 @@ export default function ContactUs() {
   const [phone, setPhone] = useState("");
   const [comments, setComments] = useState("");
   const [phoneType, setPhoneType] = useState("");
+  const [validationErrors, setValidationErrors] = useState([]);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  useEffect(() => {
+    const errors = [];
+    if (name.length === 0) errors.push("Please enter your name");
+
+    if (!email.includes("@")) errors.push("Please enter a valid email");
+
+    setValidationErrors(errors);
+  }, [name, email]);
 
   const onSubmit = (e) => {
+    setHasSubmitted(true);
     e.preventDefault();
+
+    if (validationErrors.length) return alert("Cannot submit.");
 
     const contactUsInfo = {
       name,
@@ -26,11 +40,23 @@ export default function ContactUs() {
     setPhone("");
     setComments("");
     setPhoneType("");
+    setValidationErrors([]);
+    setHasSubmitted(false);
   };
   return (
     <section className="contact-form">
       <h2>Contact Us</h2>
       <form onSubmit={onSubmit}>
+        {hasSubmitted && validationErrors.length > 0 && (
+          <div>
+            The following errors were found:
+            <ul>
+              {validationErrors.map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <section>
           <label htmlFor="name">Name:</label>
           <input
