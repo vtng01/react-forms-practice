@@ -4,6 +4,8 @@ export default function ContactUs() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [comments, setComments] = useState("");
+  const [phoneType, setPhoneType] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -12,6 +14,8 @@ export default function ContactUs() {
       name,
       email,
       phone,
+      comments,
+      phoneType,
       submittedOn: new Date(),
     };
 
@@ -20,6 +24,8 @@ export default function ContactUs() {
     setName("");
     setEmail("");
     setPhone("");
+    setComments("");
+    setPhoneType("");
   };
   return (
     <section className="contact-form">
@@ -50,6 +56,27 @@ export default function ContactUs() {
             type="text"
             onChange={(e) => setPhone(e.target.value)}
             value={phone}
+          />
+          <select
+            name="phoneType"
+            onChange={(e) => setPhoneType(e.target.value)}
+            value={phoneType}
+          >
+            <option value="" disabled>
+              Select a phone type...
+            </option>
+            <option>Home</option>
+            <option>Work</option>
+            <option>Mobile</option>
+          </select>
+        </section>
+        <section>
+          <label htmlFor="comments">Comments:</label>
+          <textarea
+            id="comments"
+            name="comments"
+            onChange={(e) => setComments(e.target.value)}
+            value={comments}
           />
         </section>
         <button>Submit</button>
